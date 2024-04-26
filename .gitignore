@@ -17,3 +17,4 @@ error.log
 *.auth*
 *_auth*
 *.conf*
+.ual_state

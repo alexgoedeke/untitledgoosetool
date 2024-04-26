@@ -17,7 +17,7 @@ setup(name='goosey',
           'Programming Language :: Python :: 3.10',
       ],
       packages=['goosey'],
-      python_requires='>=3.7,<=3.10.11',
+      python_requires='>=3.7,<=3.10.12',
       install_requires=[
           'cryptography==41.0.3',
           'requests',

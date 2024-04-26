@@ -33,7 +33,7 @@ class M365DataDumper(DataDumper):
         self.exo_us_government = config_get(config, 'config', 'exo_us_government', self.logger).lower()
         self.inboxfailfile = os.path.join(reports_dir, '_user_inbox_503.json')
         self.failurefile = os.path.join(reports_dir, '_no_results.json')
-        filters = config_get(config, 'filters', '', logger=self.logger)
+        filters = config_get(config, 'filters', 'date_start', logger=self.logger)
         if filters != '' and  filters is not None:
             self.date_range=True
             self.date_start = config_get(config, 'filters', 'date_start')
@@ -534,6 +534,9 @@ class M365DataDumper(DataDumper):
         :return: None
         :rtype: None
         """
+
+        self.logger.info(f'get ual with filter date_range: {self.date_range}, date_start: {self.date_start}, date_end: {self.date_end}')
+
         statefile = f'{self.output_dir}{os.path.sep}.ual_state'
         boundsfile = f'{self.output_dir}{os.path.sep}.ual_bounds'
         if os.path.isfile(boundsfile):

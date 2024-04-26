@@ -27,7 +27,7 @@ class AzureAdDataDumper(DataDumper):
         self.exo_us_government = config_get(config, 'config', 'exo_us_government', self.logger).lower()
         self.failurefile = os.path.join(reports_dir, '_no_results.json')
         filters = config_get(config, 'filters', 'date_start', logger=self.logger)
-        if  filters!= '' and filters is not None:
+        if filters != '' and filters is not None:
             self.date_range=True
             self.date_start = config_get(config, 'filters', 'date_start')
             if config_get(config, 'filters', 'date_end') != '':

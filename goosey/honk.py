@@ -163,7 +163,18 @@ async def run(args, config, auth, init_sections, auth_un_pw=None):
 
 def _get_section_dict(config, s):
     try:
-        return dict([(x[0], x[1].lower()=='true') for x in config.items(s)])
+        section_dict = {}
+        for x in config.items(s):
+            key, value = x
+            
+            if key.startswith('date_'):
+                try:
+                    section_dict[key] = datetime.strptime(value, '%Y-%m-%d').strftime('%Y-%m-%d')
+                except ValueError:
+                    section_dict[key] = False
+            else:
+                section_dict[key] = value.lower() == 'true'
+        return section_dict
     except Exception as e:
         logger.warning(f'Error getting section dictionary from config: {str(e)}')
     return {}
@@ -174,17 +185,16 @@ def parse_config(configfile, args, auth=None):
     config.read(configfile)
 
     if not auth:
-        sections = ['azure', 'm365', 'azuread', 'mde']
+        sections = ['azure', 'm365', 'azuread', 'mde', 'filters']
     else:
-        sections = ['auth']    
-
+        sections = ['auth']
     init_sections = []
     for section in sections:
         d = _get_section_dict(config, section)
         data_calls[section] = {}
         for key in d:
             if d[key]:
-                data_calls[section][key] = True
+                data_calls[section][key] = d[key]
                 init_sections.append(section)
     
     if args.azure:

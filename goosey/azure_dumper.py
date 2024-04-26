@@ -115,7 +115,7 @@ class AzureDataDumper(DataDumper):
                 self.asclocation = locationclient.locations.list().next().as_dict()
                 self.security_clients.append(SecurityCenter(credential=self.credential, subscription_id=sub_id, asc_location=self.asclocation))
 
-        filters = config_get(config, 'filters', '', logger=self.logger)
+        filters = config_get(config, 'filters', 'date_start', logger=self.logger)
         if filters != '' and  filters is not None:
             self.date_range=True
             self.date_start = config_get(config, 'filters', 'date_start')
